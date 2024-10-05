@@ -4,9 +4,9 @@ const router = express.Router();
 const authControllers = require("../controllers/auth");
 
 // Routes related to sending message
-router.post("/signUp", authControllers.signUp);
+router.post("/loginOrSignup", authControllers.loginOrSignup);
 
 // login
-router.post("/login", authControllers.login);
+router.post("/verifyOtp", authControllers.verifyOtp);
 
 module.exports = router;

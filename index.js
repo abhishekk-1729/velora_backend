@@ -9,6 +9,8 @@ const bodyParser = require('body-parser');
 // Security packages 
 const cors = require('cors');
 
+// const allowedOrigins = ['https://your-business-website.com'];
+
 // Routers Import
 const allroutes = require('./routes')
 
@@ -22,6 +24,11 @@ const errorHandlerMiddleware = require('./middleware/error-handler');
 // Yeah, work with app now
 const app = express();
 app.use(cors()) // Use this after the variable declaration
+// app.use(cors({
+//     origin: allowedOrigins,
+//     methods: ['GET', 'POST'],
+//     credentials: true // Allow cookies to be sent
+// }));
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 app.use(express.json());
