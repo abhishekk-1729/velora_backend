@@ -46,7 +46,7 @@ const loginOrSignup = async (req, res) => {
         const mailOptions = {
             from: process.env.EMAIL_SENDER,
             to: email,
-            subject: 'Your OTP for Velora Login/Signup',
+            subject: 'Your OTP for Velora Login or Signup',
             text: `Dear user, your OTP for login/signup is ${otp}. It will expire in 5 minutes.`,
             html: `
                 <div style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px; border-radius: 8px;">
