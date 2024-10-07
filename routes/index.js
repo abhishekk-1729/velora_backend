@@ -3,6 +3,7 @@ const router = express.Router()
 
 const alertsRouter = require('./alerts')
 const authRouter = require('./auth')
+const paymentRouter = require('./payment')
 
 // const authenticate = require('../utils/auth/authenticate')
 // const { appUserAuthMiddleware } = require('../utils/auth/appTokenVerify')
@@ -12,6 +13,7 @@ router.get('/', (req, res) => {
 });
 router.use('/api/v1/alert', alertsRouter); //tested
 router.use('/api/v1/auth', authRouter); //tested
+router.use('/api/v1/payment', paymentRouter); //tested
 // router.use('/api/v1/dashboard', authenticate.studentAuthMiddleware, dashboardRouter);
 // router.use('/api/v1/app', appUserAuthMiddleware, appRouter);
 
