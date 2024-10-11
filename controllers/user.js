@@ -1,0 +1,144 @@
+const User = require('../models/user');
+const Otp = require('../models/otp');
+const UserTryLogin = require('../models/user_try_login');
+const UserTrySignup = require('../models/user_try_signup');
+const Service = require('../models/service');
+const Order = require('../models/order');
+const Status = require('../models/status');
+const Contact = require('../models/contact');
+const CouponCode = require('../models/coupon');
+const jwt = require('jsonwebtoken');
+const nodemailer = require('nodemailer');
+const crypto = require('crypto');
+const { validationResult } = require('express-validator');
+// Set up email transporter
+const transporter = nodemailer.createTransport({
+    service: 'Gmail',
+    auth: { user: process.env.EMAIL_SENDER, pass: process.env.EMAIL_PASS }
+});
+
+// Utility function to generate OTP
+const generateOTP = () => {
+    return crypto.randomInt(100000, 999999).toString();
+};
+
+// 1. Add a User
+exports.addUser = async (req, res) => {
+    const { name, email, phone_code, phone_number, address } = req.body;
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ success: false, errors: errors.array() });
+    }
+    
+    try {
+        const newUser = new User({ name, email, phone_code, phone_number, address });
+        await newUser.save();
+        res.status(201).json({ success: true, message: 'User added successfully', user: newUser });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
+
+// 2. Get a User by email
+exports.getUserByEmail = async (req, res) => {
+    const { email } = req.params;
+
+    try {
+        const user = await User.findOne({ email });
+        if (!user) return res.status(404).json({ success: false, message: 'User not found' });
+        res.status(200).json({ success: true, user });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
+
+// 3. Add User Try Login and Signup Records
+exports.addUserTryLogin = async (req, res) => {
+    const { email, location } = req.body;
+
+    try {
+        const loginAttempt = new UserTryLogin({ email, location });
+        await loginAttempt.save();
+        res.status(201).json({ success: true, message: 'Login attempt recorded', loginAttempt });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
+
+exports.addUserTrySignup = async (req, res) => {
+    const { email, location } = req.body;
+
+    try {
+        const signupAttempt = new UserTrySignup({ email, location });
+        await signupAttempt.save();
+        res.status(201).json({ success: true, message: 'Signup attempt recorded', signupAttempt });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
+
+// 4. Send OTP via email
+exports.sendOtp = async (req, res) => {
+    const { email } = req.body;
+
+    try {
+        const otp = generateOTP();
+        let otpRecord = await Otp.findOne({ email });
+
+        if (otpRecord) {
+            otpRecord.otp = otp;
+            await otpRecord.save();
+        } else {
+            otpRecord = new Otp({ email, otp });
+            await otpRecord.save();
+        }
+
+        const mailOptions = {
+            from: process.env.EMAIL_SENDER,
+            to: email,
+            subject: 'Your OTP',
+            text: `Your OTP is ${otp}`
+        };
+
+        await transporter.sendMail(mailOptions);
+        res.status(200).json({ success: true, message: 'OTP sent' });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
+
+// 5. Verify OTP
+exports.verifyOtp = async (req, res) => {
+    const { email, otp } = req.body;
+
+    try {
+        const otpRecord = await Otp.findOne({ email });
+
+        if (!otpRecord || otpRecord.otp !== otp) {
+            return res.status(400).json({ success: false, message: 'Invalid or expired OTP' });
+        }
+
+        const token = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        await Otp.deleteOne({ email });
+
+        res.status(200).json({ success: true, token });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
+
+// 6. Get all Orders via User's Email
+exports.getAllOrdersByEmail = async (req, res) => {
+    const { email } = req.params;
+
+    try {
+        const user = await User.findOne({ email });
+        if (!user) return res.status(404).json({ success: false, message: 'User not found' });
+
+        const orders = await Order.find({ user_id: user._id }).populate('service_id');
+        res.status(200).json({ success: true, orders });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
