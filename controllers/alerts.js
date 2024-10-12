@@ -8,7 +8,7 @@ const whatsappNumber = process.env.TWILIO_WHATSAPP_NUMBER; // Your Twilio WhatsA
 const smsNumber = process.env.TWILIO_SMS_NUMBER; // Your Twilio WhatsApp number
 
 const sendMessage = async (req, res) => {
-    const { phone, message } = req.body; // Get the phone number and message from request body
+    const { phone } = req.body; // Get the phone number and message from request body
 
     try {
         // Initialize the Twilio client
@@ -18,7 +18,7 @@ const sendMessage = async (req, res) => {
         const result = await client.messages.create({
             from: smsNumber,      // Your Twilio phone number (e.g., +1234567890)
             to: phone,            // Recipient's phone number
-            body: message,        // The message body (text) you want to send
+            body: "message",        // The message body (text) you want to send
         });
 
         // Respond with success message

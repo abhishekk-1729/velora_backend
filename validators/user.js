@@ -31,4 +31,9 @@ exports.validateUser = [
         .optional()
         .isLength({ min: 0 })
         .withMessage('Address should be at least 5 characters long'),
+
+    body('location')
+        .optional()
+        .isLength({ min: 0 })
+        .withMessage('Location should be at least 5 characters long'),
 ];

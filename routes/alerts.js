@@ -7,7 +7,7 @@ const alertControllers = require("../controllers/alerts");
 router.post("/sendMessage", alertControllers.sendMessage);
 
 // Routes related to sending whatsapp message
-router.post("/sendWhatsappMessage", alertControllers.sendWhatsappMessage);
+// router.post("/sendWhatsappMessage", alertControllers.sendWhatsappMessage);
 
 // Routes related to sending email
 router.post("/sendEmail", alertControllers.sendEmail);

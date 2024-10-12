@@ -10,7 +10,7 @@ const CouponCode = require('../models/coupon');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 const crypto = require('crypto');
-const { validationResult } = require('express-validator');
+
 // Set up email transporter
 const transporter = nodemailer.createTransport({
     service: 'Gmail',
@@ -21,20 +21,27 @@ const transporter = nodemailer.createTransport({
 const generateOTP = () => {
     return crypto.randomInt(100000, 999999).toString();
 };
-
+// 670a5a6f5a73185716058ff4 order id
+// user_id: 670a55ccd58a308b3280de46
 // 1. Add a User
+// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzBhNTVjY2Q1OGEzMDhiMzI4MGRlNDYiLCJlbWFpbCI6ImFiaGlrcmlpdGRAZ21haWwuY29tIiwiaWF0IjoxNzI4NzMwNTcyLCJleHAiOjE3Mjg3MzQxNzJ9.ihGuQByhzTtjTMMXseW2xVK8Ki6eixzrJ2scd1i8eu0
+// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFiaGlrcmlpdGRAZ21haWwuY29tIiwiaWF0IjoxNzI4NzMwNjgyLCJleHAiOjE3Mjg3MzQyODJ9.L5wNbp1vJS0Xlnyue0_68TtdnDSeR2lYNRTG_NmKzJA
 exports.addUser = async (req, res) => {
-    const { name, email, phone_code, phone_number, address } = req.body;
+    const { name, email, phone_code, phone_number, address,location } = req.body;
 
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(400).json({ success: false, errors: errors.array() });
-    }
-    
     try {
-        const newUser = new User({ name, email, phone_code, phone_number, address });
+        const newUser = new User({ name, email, phone_code, phone_number, address,location });
         await newUser.save();
-        res.status(201).json({ success: true, message: 'User added successfully', user: newUser });
+
+        // Generate JWT token
+        const token = jwt.sign({ userId: newUser._id, email: newUser.email }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+        res.status(201).json({
+            success: true,
+            message: 'User added successfully',
+            user: newUser,
+            token // Include the token in the response
+        });
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
     }
@@ -138,6 +145,22 @@ exports.getAllOrdersByEmail = async (req, res) => {
 
         const orders = await Order.find({ user_id: user._id }).populate('service_id');
         res.status(200).json({ success: true, orders });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
+
+// 7. Get a User by ID
+exports.getUserById = async (req, res) => {
+    const { id } = req.params; // Get user ID from request parameters
+
+    try {
+        // Find the user by ID
+        const user = await User.findById(id);
+        if (!user) {
+            return res.status(404).json({ success: false, message: 'User not found' });
+        }
+        res.status(200).json({ success: true, user });
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
     }

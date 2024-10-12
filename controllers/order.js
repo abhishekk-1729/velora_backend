@@ -1,16 +1,30 @@
 const Order = require('../models/order');
+const Status = require('../models/status');
 
 // 1. Create an order
 const createOrder = async (req, res) => {
     const { user_id, service_id, discount } = req.body;
+
     try {
+        // Create a new order
         const order = new Order({ user_id, service_id, discount });
         await order.save();
-        res.status(201).json({ success: true, message: 'Order created successfully', order });
+
+        // Create a new status record with completed_steps set to 1
+        const status = new Status({ order_id: order._id, completed_steps: 1 });
+        await status.save();
+
+        res.status(201).json({
+            success: true,
+            message: 'Order created successfully',
+            order,
+            status, // Optionally return the status if needed
+        });
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
     }
 };
+
 
 // 2. Get all orders
 const getAllOrders = async (req, res) => {

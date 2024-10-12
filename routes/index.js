@@ -8,8 +8,10 @@ const userRouter = require('./user')
 const serviceRouter = require('./service')
 const contactRouter = require('./contact')
 const couponRouter = require('./coupon')
+
 const orderRouter = require('./order')
 const statusRouter = require('./status')
+const cashbackRouter = require('./cashback')
 
 // const authenticate = require('../utils/auth/authenticate')
 // const { appUserAuthMiddleware } = require('../utils/auth/appTokenVerify')
@@ -24,6 +26,7 @@ router.use('/api/v1/user', userRouter); //tested
 router.use('/api/v1/service', serviceRouter); //tested
 router.use('/api/v1/contact', contactRouter); //tested
 router.use('/api/v1/coupon', couponRouter); //tested
+router.use('/api/v1/cashback', cashbackRouter); //tested
 router.use('/api/v1/status', statusRouter); //tested
 router.use('/api/v1/order', orderRouter); //tested
 // router.use('/api/v1/dashboard', authenticate.studentAuthMiddleware, dashboardRouter);
