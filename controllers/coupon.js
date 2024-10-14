@@ -1,6 +1,6 @@
 
 
-const Coupon = require('../models/coupon');
+const CouponCode = require('../models/coupon');
 const jwt = require('jsonwebtoken');
 const { validationResult } = require('express-validator');
 
@@ -36,7 +36,7 @@ exports.getCouponsByUserId = async (req, res) => {
         const cashbackIds = cashbacks.map(cashback => cashback._id);
 
         // Step 3: Find all coupon codes associated with the cashback IDs
-        const coupons = await Coupon.find({ cashback_id: { $in: cashbackIds } });
+        const coupons = await CouponCode.find({ cashback_id: { $in: cashbackIds } });
 
         // Return the coupons found
         res.status(200).json({ success: true, coupons });
@@ -72,7 +72,8 @@ exports.verifyCoupon = async (req, res) => {
         }
 
         // Step 3: Find the coupon code
-        const coupon = await Coupon.findOne({ coupon_code });
+        console.log(coupon_code);
+        const coupon = await CouponCode.findOne({ coupon_code });
         if (!coupon) {
             return res.status(404).json({ success: false, message: 'Coupon code not found' });
         }

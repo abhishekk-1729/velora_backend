@@ -1,5 +1,7 @@
+const jwt = require('jsonwebtoken');
 const Order = require('../models/order');
 const Status = require('../models/status');
+
 
 // 1. Create an order
 const createOrder = async (req, res) => {
@@ -11,7 +13,7 @@ const createOrder = async (req, res) => {
         await order.save();
 
         // Create a new status record with completed_steps set to 1
-        const status = new Status({ order_id: order._id, completed_steps: 1 });
+        const status = new Status({ order_id: order._id, completed_steps: 0 });
         await status.save();
 
         res.status(201).json({
@@ -62,14 +64,40 @@ const deleteOrder = async (req, res) => {
 };
 
 const getAllOrdersByUserId = async (req, res) => {
-    const { userId } = req.params;
-    try {
-        const orders = await Order.find({ user_id: userId }).populate('service_id');
-        res.status(200).json({ success: true, orders });
-    } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
+    // Get token from request headers
+    const token = req.headers.authorization?.split(' ')[1]; // Assuming the token is sent in the Authorization header as "Bearer token"
+
+    if (!token) {
+        return res.status(401).json({ success: false, message: 'No token provided' });
     }
-};
+
+    try {
+        // Decode the token to get the user ID
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const userId = decoded.userId;
+
+        // Fetch all orders for the user
+        const orders = await Order.find({ user_id: userId }).populate('service_id');
+
+        // Map the orders to return the desired format
+        const result = orders.map(order => {
+            const originalPrice = order.service_id.originalPrice;
+            const discountAmount = (originalPrice * order.discount) / 100; // Calculate discount amount
+            const totalAmount = originalPrice - discountAmount; // Calcul            
+            return {
+                order_id: order._id,
+                total_amount: totalAmount,
+            };
+        });
+
+        res.status(200).json({
+            success: true,
+            orders: result,
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, message: error.message });
+    }};
 
 module.exports = {
     createOrder,

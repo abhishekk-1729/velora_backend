@@ -210,8 +210,42 @@ verifyToken = (req, res) => {
     }
 };
 
+const authLogin = async (req, res) => {
+    const { email, name, location } = req.body;
 
-module.exports = {verifyToken,sendLoginEmailOtp,sendSignupEmailOtp,verifyOtpEmail};
+    // Check for validation errors
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ success: false, errors: errors.array() });
+    }
+
+    try {
+        // Log the login attempt in the UserTryLogin model
+        const userTryLogin = new UserTryLogin({ email, name, location });
+        await userTryLogin.save();
+
+        // Check if the user exists in the database
+        const user = await User.findOne({ email });
+
+        if (!user) {
+            // User does not exist, return response
+            return res.status(200).json({ success: false, message: 'User not present. Please sign up.' });
+        }
+
+        // User exists, generate a JWT token with their ID
+        const tokenPayload = { email, userId: user._id };
+        const token = jwt.sign(tokenPayload, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+        // Return the token
+        return res.status(200).json({ success: true, token, message: 'Login successful' });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
+
+
+
+module.exports = {verifyToken,sendLoginEmailOtp,sendSignupEmailOtp,verifyOtpEmail,authLogin};
 
 
 

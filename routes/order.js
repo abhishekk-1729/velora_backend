@@ -7,7 +7,7 @@ router.post('/createOrder', authMiddleware, createOrder);
 // router.get('/getAllOrders', getAllOrders);
 // router.get('/getOrder/:id', getOrderById);
 
-router.get('/getAllOrders/user/:userId',authMiddleware, getAllOrdersByUserId);
+router.get('/getAllOrders/user',authMiddleware, getAllOrdersByUserId);
 // router.delete('/deleteOrder/:id', deleteOrder);
 
 module.exports = router;

@@ -15,6 +15,9 @@ router.post("/sendSignupOtp",validateEmailAndLocation, authControllers.sendSignu
 router.post("/verifyOtp",validateOtp, authControllers.verifyOtpEmail);
 
 // token verify
-router.post("/verifyToken", authControllers.verifyToken);
+router.get("/verifyToken", authControllers.verifyToken);
+
+// auth login
+router.post("/authLogin", authControllers.authLogin);
 
 module.exports = router;
