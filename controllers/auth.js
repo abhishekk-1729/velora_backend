@@ -58,11 +58,42 @@ const sendLoginEmailOtp = async (req, res) => {
         await userTryLogin.save();
 
         // Send OTP email
-        const mailOptions = {
+const mailOptions = {
             from: process.env.EMAIL_SENDER,
             to: email,
-            subject: 'Your Login OTP',
-            text: `Your OTP is ${otp}`,
+            subject: 'Your OTP for Velora Login or Signup',
+            text: `Dear user, your OTP for login/signup is ${otp}. It will expire in 5 minutes.`,
+            html: `
+                <div style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px; border-radius: 8px;">
+                    <div style="background-color: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);">
+                        <h2 style="color: #333333;">Welcome to Velora!</h2>
+                        <p style="font-size: 16px; color: #555555;">
+                            Dear user,
+                        </p>
+                        <p style="font-size: 16px; color: #555555;">
+                            Your One-Time Password (OTP) for login/signup is:
+                        </p>
+                        <h1 style="font-size: 24px; color: #007BFF; text-align: center; margin: 20px 0;">
+                            ${otp}
+                        </h1>
+                        <p style="font-size: 16px; color: #555555;">
+                            This OTP is valid for 5 minutes. Please enter it in the provided field to complete your login or signup process.
+                        </p>
+                        <p style="font-size: 16px; color: #555555;">
+                            If you did not request this OTP, please ignore this email or contact our support team.
+                        </p>
+                        <hr style="border: 1px solid #dddddd;">
+                        <p style="font-size: 14px; color: #777777; text-align: center;">
+                            Best Regards,<br>
+                            <strong>Velora Support Team</strong>
+                        </p>
+                        <p style="font-size: 12px; color: #aaaaaa; text-align: center;">
+                            This is an automated message. Please do not reply to this email. For any inquiries, contact us at 
+                            <a href="mailto:support@yourbusiness.com" style="color: #007BFF; text-decoration: none;">support@yourbusiness.com</a>.
+                        </p>
+                    </div>
+                </div>
+            `,
         };
 
         await transporter.sendMail(mailOptions);
