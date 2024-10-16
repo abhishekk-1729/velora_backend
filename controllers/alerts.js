@@ -18,7 +18,7 @@ const sendMessage = async (req, res) => {
         const result = await client.messages.create({
             from: smsNumber,      // Your Twilio phone number (e.g., +1234567890)
             to: phone,            // Recipient's phone number
-            body: "message",        // The message body (text) you want to send
+            body: "Hello! 🎉 Welcome to Velora! We're excited to have you on board. If you have any questions or need assistance, feel free to reach out. Enjoy exploring our services! 🌟 Best, The Velora Team.",        // The message body (text) you want to send
         });
 
         // Respond with success message
