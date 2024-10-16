@@ -33,6 +33,7 @@ exports.addUser = async (req, res) => {
     const { name, email, phone_code, phone_number, address, location } = req.body;
 
     try {
+        // Create a new user
         const newUser = new User({ name, email, phone_code, phone_number, address, location });
         await newUser.save();
 
@@ -47,33 +48,46 @@ exports.addUser = async (req, res) => {
         });
         await cashback.save();
 
-        // Create coupon code
-        const couponCodeBase = "VELORA";
-        const couponCodeNumber = 1; // Start number for coupon code
-        const couponCode = `${couponCodeBase}${String(couponCodeNumber).padStart(3, '0')}`;
-        const expiryDate = new Date('2024-11-30'); // Set expiry date to end of November 2024
+        // Find the latest coupon code in the database to determine the next number
+        const lastCoupon = await CouponCode.findOne().sort({ _id: -1 }); // Get the latest coupon by ID
+        let couponCodeNumber = 1; // Default starting number
 
+        if (lastCoupon) {
+            const lastCodeNumber = parseInt(lastCoupon.coupon_code.replace(/\D/g, ''), 10); // Extract number part
+            couponCodeNumber = lastCodeNumber + 1; // Increment the number
+        }
+
+        // Generate the new coupon code
+        const couponCodeBase = "VELORA";
+        const couponCode = `${couponCodeBase}${String(couponCodeNumber).padStart(3, '0')}`; // Pad number to 3 digits
+
+        // Set expiry date for the coupon code
+        const expiryDate = new Date('2024-11-30'); // You can customize this date as needed
+
+        // Create and save the new coupon code entry
         const newCouponCode = new CouponCode({
             coupon_code: couponCode,
             discount_percent: 5, // Default discount percentage
             cashback_id: cashback._id, // Link to cashback
             issued_date: new Date(), // Current date
-            expiry_date: expiryDate
+            expiry_date: expiryDate,
         });
 
         await newCouponCode.save();
 
+        // Respond to the client
         res.status(201).json({
             success: true,
             message: 'User added successfully',
             user: newUser,
-            token, // Include the token in the response
-            coupon_code: newCouponCode // Include the coupon code in the response
+            token, // Include the JWT token in the response
+            coupon_code: newCouponCode // Include the new coupon code in the response
         });
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
     }
 };
+
 
 
 // 2. Get a User by email
