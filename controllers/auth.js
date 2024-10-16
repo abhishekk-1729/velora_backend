@@ -61,8 +61,8 @@ const sendLoginEmailOtp = async (req, res) => {
 const mailOptions = {
             from: process.env.EMAIL_SENDER,
             to: email,
-            subject: 'Your OTP for Velora Login or Signup',
-            text: `Dear user, your OTP for login/signup is ${otp}. It will expire in 5 minutes.`,
+            subject: 'Your Magic Code for Velora Login',
+            text: `Dear user, your magic code for login is ${otp}. It will expire in 5 minutes.`,
             html: `
                 <div style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px; border-radius: 8px;">
                     <div style="background-color: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);">
@@ -71,16 +71,16 @@ const mailOptions = {
                             Dear user,
                         </p>
                         <p style="font-size: 16px; color: #555555;">
-                            Your One-Time Password (OTP) for login/signup is:
+                            Your Magic Code for login is:
                         </p>
                         <h1 style="font-size: 24px; color: #007BFF; text-align: center; margin: 20px 0;">
                             ${otp}
                         </h1>
                         <p style="font-size: 16px; color: #555555;">
-                            This OTP is valid for 5 minutes. Please enter it in the provided field to complete your login or signup process.
+                            This code is valid for 5 minutes. Please enter it in the provided field to complete your login process.
                         </p>
                         <p style="font-size: 16px; color: #555555;">
-                            If you did not request this OTP, please ignore this email or contact our support team.
+                            If you did not request this code, please ignore this email or contact our support team.
                         </p>
                         <hr style="border: 1px solid #dddddd;">
                         <p style="font-size: 14px; color: #777777; text-align: center;">
@@ -134,8 +134,8 @@ const sendSignupEmailOtp = async (req, res) => {
         const mailOptions = {
             from: process.env.EMAIL_SENDER,
             to: email,
-            subject: 'Your OTP for Velora Login or Signup',
-            text: `Dear user, your OTP for login/signup is ${otp}. It will expire in 5 minutes.`,
+            subject: 'Your Magic Code for Velora Signup',
+            text: `Dear user, your magic code for signup is ${otp}. It will expire in 5 minutes.`,
             html: `
                 <div style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px; border-radius: 8px;">
                     <div style="background-color: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);">
@@ -144,16 +144,16 @@ const sendSignupEmailOtp = async (req, res) => {
                             Dear user,
                         </p>
                         <p style="font-size: 16px; color: #555555;">
-                            Your One-Time Password (OTP) for login/signup is:
+                            Your Magic Code for signup is:
                         </p>
                         <h1 style="font-size: 24px; color: #007BFF; text-align: center; margin: 20px 0;">
                             ${otp}
                         </h1>
                         <p style="font-size: 16px; color: #555555;">
-                            This OTP is valid for 5 minutes. Please enter it in the provided field to complete your login or signup process.
+                            This code is valid for 5 minutes. Please enter it in the provided field to complete your signup process.
                         </p>
                         <p style="font-size: 16px; color: #555555;">
-                            If you did not request this OTP, please ignore this email or contact our support team.
+                            If you did not request this code, please ignore this email or contact our support team.
                         </p>
                         <hr style="border: 1px solid #dddddd;">
                         <p style="font-size: 14px; color: #777777; text-align: center;">
