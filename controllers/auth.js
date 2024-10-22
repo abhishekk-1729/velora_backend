@@ -59,7 +59,7 @@ const sendLoginEmailOtp = async (req, res) => {
 
         // Send OTP email
 const mailOptions = {
-            from: process.env.EMAIL_SENDER,
+            from: '"The First Web Team" <support@thefirstweb.com>',
             to: email,
             subject: 'Your Magic Code for The First Web Login',
             text: `Dear user, your magic code for login is ${otp}. It will expire in 5 minutes.`,
