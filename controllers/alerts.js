@@ -84,7 +84,7 @@ const sendEmail = (req, res) => {
     const { email } = req.body;
 
     const mailOptions = {
-        from: process.env.EMAIL_SENDER,   // Sender's email address (e.g., your business email)
+        from: '"The First Web Team" <support@thefirstweb.com>',   // Sender's email address (e.g., your business email)
         to: email,                        // Recipient's email address
         subject: 'Welcome to The First Web - Let’s Get Started!',  // Subject line with business context
         text: `Dear user,\n\nWe’re thrilled to have you on board with The First Web!\nHere’s what you can expect as part of our community...\n\nBest Regards,\nThe First Web`,  // Plain text body (fallback)
