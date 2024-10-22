@@ -9,7 +9,7 @@ const { validationResult } = require('express-validator');
 
 // Set up email transporter
 const transporter = nodemailer.createTransport({
-        host: 'smtp.gmail.com',  // Replace with your SMTP host
+        host: 'smtpout.secureserver.net',  // Replace with your SMTP host
         port: 587,                 // Port (587 is typically used for secure connections)
         secure: false,             // true for 465, false for other ports
         auth: {
