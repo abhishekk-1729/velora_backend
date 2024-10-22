@@ -61,12 +61,12 @@ const sendLoginEmailOtp = async (req, res) => {
 const mailOptions = {
             from: process.env.EMAIL_SENDER,
             to: email,
-            subject: 'Your Magic Code for Velora Login',
+            subject: 'Your Magic Code for The First Web Login',
             text: `Dear user, your magic code for login is ${otp}. It will expire in 5 minutes.`,
             html: `
                 <div style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px; border-radius: 8px;">
                     <div style="background-color: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);">
-                        <h2 style="color: #333333;">Welcome to Velora!</h2>
+                        <h2 style="color: #333333;">Welcome to The First Web!</h2>
                         <p style="font-size: 16px; color: #555555;">
                             Dear user,
                         </p>
@@ -85,11 +85,11 @@ const mailOptions = {
                         <hr style="border: 1px solid #dddddd;">
                         <p style="font-size: 14px; color: #777777; text-align: center;">
                             Best Regards,<br>
-                            <strong>Velora Support Team</strong>
+                            <strong>The First Web Support Team</strong>
                         </p>
                         <p style="font-size: 12px; color: #aaaaaa; text-align: center;">
                             This is an automated message. Please do not reply to this email. For any inquiries, contact us at 
-                            <a href="mailto:support@yourbusiness.com" style="color: #007BFF; text-decoration: none;">support@yourbusiness.com</a>.
+                            <a href="mailto:support@thefirstweb.com" style="color: #007BFF; text-decoration: none;">support@thefirstweb.com</a>.
                         </p>
                     </div>
                 </div>
@@ -134,12 +134,12 @@ const sendSignupEmailOtp = async (req, res) => {
         const mailOptions = {
             from: process.env.EMAIL_SENDER,
             to: email,
-            subject: 'Your Magic Code for Velora Signup',
+            subject: 'Your Magic Code for The First Web Signup',
             text: `Dear user, your magic code for signup is ${otp}. It will expire in 5 minutes.`,
             html: `
                 <div style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px; border-radius: 8px;">
                     <div style="background-color: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);">
-                        <h2 style="color: #333333;">Welcome to Velora!</h2>
+                        <h2 style="color: #333333;">Welcome to The First Web!</h2>
                         <p style="font-size: 16px; color: #555555;">
                             Dear user,
                         </p>
@@ -158,7 +158,7 @@ const sendSignupEmailOtp = async (req, res) => {
                         <hr style="border: 1px solid #dddddd;">
                         <p style="font-size: 14px; color: #777777; text-align: center;">
                             Best Regards,<br>
-                            <strong>Velora Support Team</strong>
+                            <strong>The First Web Support Team</strong>
                         </p>
                         <p style="font-size: 12px; color: #aaaaaa; text-align: center;">
                             This is an automated message. Please do not reply to this email. For any inquiries, contact us at 
@@ -329,12 +329,12 @@ module.exports = {verifyToken,sendLoginEmailOtp,sendSignupEmailOtp,verifyOtpEmai
 //         const mailOptions = {
 //             from: process.env.EMAIL_SENDER,
 //             to: email,
-//             subject: 'Your OTP for Velora Login or Signup',
+//             subject: 'Your OTP for The First Web Login or Signup',
 //             text: `Dear user, your OTP for login/signup is ${otp}. It will expire in 5 minutes.`,
 //             html: `
 //                 <div style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px; border-radius: 8px;">
 //                     <div style="background-color: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);">
-//                         <h2 style="color: #333333;">Welcome to Velora!</h2>
+//                         <h2 style="color: #333333;">Welcome to The First Web!</h2>
 //                         <p style="font-size: 16px; color: #555555;">
 //                             Dear user,
 //                         </p>
@@ -353,7 +353,7 @@ module.exports = {verifyToken,sendLoginEmailOtp,sendSignupEmailOtp,verifyOtpEmai
 //                         <hr style="border: 1px solid #dddddd;">
 //                         <p style="font-size: 14px; color: #777777; text-align: center;">
 //                             Best Regards,<br>
-//                             <strong>Velora Support Team</strong>
+//                             <strong>The First Web Support Team</strong>
 //                         </p>
 //                         <p style="font-size: 12px; color: #aaaaaa; text-align: center;">
 //                             This is an automated message. Please do not reply to this email. For any inquiries, contact us at 
