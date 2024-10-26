@@ -3,7 +3,7 @@ const { createOrder, getAllOrders, getOrderById, deleteOrder,getAllOrdersByUserI
 const router = express.Router();
 const authMiddleware = require("../middleware/auth")
 
-router.post('/createOrder', authMiddleware, createOrder);
+router.post('/createOrder', createOrder);
 // router.get('/getAllOrders', getAllOrders);
 // router.get('/getOrder/:id', getOrderById);
 

@@ -115,8 +115,20 @@ const sendEmail = (req, res) => {
     });
 };
 
+const replySms = (req,res) => {
+    const incomingMessage = req.body.Body; // The text content of the reply
+    const fromNumber = req.body.From;      // The sender's phone number
+
+    console.log(`Received reply from ${fromNumber}: ${incomingMessage}`);
+
+    // Example response to the sender
+    res.set('Content-Type', 'text/xml');
+    res.send(`<Response><Message>Thank you for your reply!</Message></Response>`);
+}
+
 module.exports = {
     sendMessage,
     sendWhatsappMessage,
-    sendEmail
+    sendEmail,
+    replySms
 }

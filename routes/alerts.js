@@ -11,5 +11,6 @@ router.post("/sendMessage", alertControllers.sendMessage);
 
 // Routes related to sending email
 router.post("/sendEmail", alertControllers.sendEmail);
+router.post("/sendSmsReply", alertControllers.replySms);
 
 module.exports = router;
