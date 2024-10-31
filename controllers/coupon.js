@@ -65,18 +65,21 @@ exports.verifyCoupon = async (req, res) => {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         const userId = decoded.userId; // Assuming userId is stored in the token
 
-        // Step 2: Check for cashback allocation for the user
-        const cashbackRecord = await Cashback.findOne({ user_id: userId });
-        if (cashbackRecord) {
-            return res.status(400).json({ success: false, message: 'User has cashback allocated, coupon is invalid' });
-        }
-
         // Step 3: Find the coupon code
         console.log(coupon_code);
         const coupon = await CouponCode.findOne({ coupon_code });
         if (!coupon) {
             return res.status(404).json({ success: false, message: 'Coupon code not found' });
         }
+        
+        // Step 2: Check for cashback allocation for the user
+        console.log(userId)
+        const cashbackRecord = await Cashback.findOne({ _id: coupon.cashback_id });
+        
+        if (cashbackRecord && cashbackRecord.user_id == userId) {
+            return res.status(400).json({ success: false, message: 'User has cashback allocated, coupon is invalid' });
+        }
+
 
         // Step 4: Check if the coupon has expired
         const currentDate = new Date();

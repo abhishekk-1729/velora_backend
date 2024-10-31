@@ -8,12 +8,32 @@ const createOrder = async (req, res) => {
     const { user_id, service_id, discount } = req.body;
 
     try {
-        // Create a new order
+        // Step 1: Create a new order
         const order = new Order({ user_id, service_id, discount });
         await order.save();
 
-        // Create a new status record with completed_steps set to 1
-        const status = new Status({ order_id: order._id, completed_steps: 0 });
+        // Step 2: Create a new status record with null dates for all steps
+        const status = new Status({
+            order_id: order._id,
+            completed_steps: 0,
+            dates: {
+                advance_payment: null,
+                ui_discussion: null,
+                ui_started: null,
+                ui_completed: null,
+                client_review: null,
+                dev_started: null,
+                dev_completed: null,
+                initial_quality: null,
+                deployment_started: null,
+                deployment_completed: null,
+                precision_review: null,
+                final_review: null,
+                launch_readiness: null,
+                remaining_payment: null,
+                website_delivery: null
+            }
+        });
         await status.save();
 
         res.status(201).json({
@@ -26,6 +46,7 @@ const createOrder = async (req, res) => {
         res.status(500).json({ success: false, message: error.message });
     }
 };
+
 
 
 // 2. Get all orders

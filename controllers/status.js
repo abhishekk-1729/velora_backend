@@ -46,9 +46,40 @@ const getStatusByOrderId = async (req, res) => {
             return res.status(403).json({ success: false, message: 'Access denied. This order does not belong to you.' });
         }
 
-        // Step 4: Fetch statuses for the order
-        const statuses = await Status.find({ order_id });
-        res.status(200).json({ success: true, statuses });
+        // Step 4: Fetch status for the order and include completed_steps
+        const status = await Status.findOne({ order_id });
+        if (!status) {
+            return res.status(404).json({ success: false, message: 'Status not found for this order.' });
+        }
+
+        const stepNames = [
+            "advance_payment",
+            "ui_discussion",
+            "ui_started",
+            "ui_completed",
+            "client_review",
+            "dev_started",
+            "dev_completed",
+            "initial_quality",
+            "deployment_started",
+            "deployment_completed",
+            "precision_review",
+            "final_review",
+            "launch_readiness",
+            "remaining_payment",
+            "website_delivery"
+        ];
+
+        const stepStatusArray = stepNames.map(step => {
+            return status.dates[step] ? status.dates[step].toISOString() : "To be completed";
+        });
+
+        // Return statuses along with the number of completed steps
+        res.status(200).json({
+            success: true,
+            statuses: stepStatusArray,
+            completed_steps: status.completed_steps
+        });
         
     } catch (error) {
         // Handle token verification errors or database errors
@@ -58,7 +89,6 @@ const getStatusByOrderId = async (req, res) => {
         res.status(500).json({ success: false, message: error.message });
     }
 };
-
 
 // 4. Delete a status
 const deleteStatus = async (req, res) => {
@@ -71,9 +101,10 @@ const deleteStatus = async (req, res) => {
     }
 };
 
+
 module.exports = {
     createStatus,
     getAllStatuses,
     getStatusByOrderId,
-    deleteStatus,
+    deleteStatus
 };

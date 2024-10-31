@@ -265,7 +265,9 @@ const authLogin = async (req, res) => {
 
         // User exists, generate a JWT token with their ID
         const tokenPayload = { email, userId: user._id };
+        console.log(process.env.JWT_SECRET);
         const token = jwt.sign(tokenPayload, process.env.JWT_SECRET, { expiresIn: '1h' });
+        console.log(token);
 
         // Return the token
         return res.status(200).json({ success: true, token, message: 'Login successful' });
