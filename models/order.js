@@ -12,10 +12,27 @@ const OrderSchema = new mongoose.Schema({
         ref: 'Service',
         required: true,
     },
+    couponCodeId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'CouponCode',
+        required: false,
+    },
     discount: {
         type: Number,
         default: 0,
-    }
+    },
+    date: {
+        type: Date,
+        default: null,
+    },
+    totalAmountOrder: {
+        type: Number,
+        default: null,
+    },
+    currencyChange: {
+        type: Number,
+        default: null,
+    },
 });
 
 // Create the Order model

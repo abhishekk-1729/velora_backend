@@ -29,7 +29,7 @@ const create_order = async (req, res) => {
         const { amount, currency, receipt, notes } = req.body;
     
         const options = {
-          amount: amount, // Convert amount to paise
+          amount: amount*100, // Convert amount to paise
           currency,
           receipt,
           notes,
@@ -56,7 +56,7 @@ const create_order = async (req, res) => {
 };
 
 const verify_payment = async (req, res) => {
-    const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
+    const { razorpay_order_id, razorpay_payment_id, razorpay_signature} = req.body;
 
     const secret = razorpay.key_secret;
     const body = razorpay_order_id + '|' + razorpay_payment_id;
@@ -73,13 +73,10 @@ const verify_payment = async (req, res) => {
           writeData(orders);
         }
         res.status(200).json({ status: 'ok' });
-        console.log("Payment verification successful");
       } else {
         res.status(400).json({ status: 'verification_failed' });
-        console.log("Payment verification failed");
       }
     } catch (error) {
-      console.error(error);
       res.status(500).json({ status: 'error', message: 'Error verifying payment' });
     }  
 };
