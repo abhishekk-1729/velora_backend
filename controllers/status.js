@@ -53,7 +53,7 @@ const getStatusByOrderId = async (req, res) => {
         }
 
         const stepNames = [
-            "advance_payment",
+            'advance_payment',
             "ui_discussion",
             "ui_started",
             "ui_completed",
@@ -70,8 +70,24 @@ const getStatusByOrderId = async (req, res) => {
             "website_delivery"
         ];
 
+        const formatDate = (date) => {
+            if (!date) return "To be completed";
+        
+            const options = {
+                day: 'numeric',
+                month: 'short',
+                year: 'numeric',
+                hour: 'numeric',
+                minute: '2-digit',
+                hour12: true
+            };
+            return new Intl.DateTimeFormat('en-US', options).format(date);
+        };
+        
+
         const stepStatusArray = stepNames.map(step => {
-            return status.dates[step] ? status.dates[step].toISOString() : "To be completed";
+            const date = status.dates.get(step);
+            return  date ? formatDate(date) : "To be completed";
         });
 
         // Return statuses along with the number of completed steps

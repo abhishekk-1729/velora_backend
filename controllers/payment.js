@@ -4,8 +4,8 @@ const path = require("path");
 const { validateWebhookSignature } = require('razorpay/dist/utils/razorpay-utils');
 
 const razorpay = new Razorpay({
-    key_id:'YOUR_KEY_ID',
-    key_secret:'YOUR_KEY_SECRET',
+    key_id:'rzp_live_MlxWqnBX5fORCU',
+    key_secret:'2EEHlsag3YuzCpcHHNVhyVr2',
 })
 
 const readData = () => {
@@ -29,7 +29,7 @@ const create_order = async (req, res) => {
         const { amount, currency, receipt, notes } = req.body;
     
         const options = {
-          amount: amount * 100, // Convert amount to paise
+          amount: amount, // Convert amount to paise
           currency,
           receipt,
           notes,
