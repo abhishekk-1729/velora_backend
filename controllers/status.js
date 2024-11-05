@@ -41,7 +41,9 @@ const getStatusByOrderId = async (req, res) => {
 
         // Step 3: Check if the order belongs to the user
         const order = await Order.findOne({ _id: order_id, user_id: userId });
-        
+        const total_amount = order.totalAmountOrder;
+        const paidAmount = total_amount*0.2;
+        const remainingAmount = (total_amount - paidAmount) | 0;
         if (!order) {
             return res.status(403).json({ success: false, message: 'Access denied. This order does not belong to you.' });
         }
@@ -96,7 +98,8 @@ const getStatusByOrderId = async (req, res) => {
         res.status(200).json({
             success: true,
             statuses: stepStatusArray,
-            completed_steps: status.completed_steps
+            completed_steps: status.completed_steps,
+            remainingAmount: remainingAmount
         });
         
     } catch (error) {
