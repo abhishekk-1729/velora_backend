@@ -1,5 +1,7 @@
 const nodemailer = require('nodemailer')
 const twilio = require('twilio');
+const TryMail = require('../models/tryMail')
+const TryMessage = require('../models/tryMessage')
 
 // Load Twilio credentials from environment variables
 const accountSid = process.env.TWILIO_ACCOUNT_SID; // Your Account SID from Twilio
@@ -9,8 +11,9 @@ const smsNumber = process.env.TWILIO_SMS_NUMBER; // Your Twilio WhatsApp number
 
 const sendMessage = async (req, res) => {
     const { phone } = req.body; // Get the phone number and message from request body
-
+    console.log(phone);
     try {
+        await TryMessage.create({ phone });
         // Initialize the Twilio client
         const client = twilio(accountSid, authToken);
 
@@ -21,6 +24,7 @@ const sendMessage = async (req, res) => {
             body: "Hello! 🎉 Welcome to The First Web! We're excited to have you on board. If you have any questions or need assistance, feel free to reach out. Enjoy exploring our services! 🌟 Best, The The First Web Team.",        // The message body (text) you want to send
         });
 
+        
         // Respond with success message
         res.status(200).json({
             success: true,
@@ -86,16 +90,16 @@ const sendEmail = (req, res) => {
     const mailOptions = {
         from: '"The First Web Team" <support@thefirstweb.com>',   // Sender's email address (e.g., your business email)
         to: email,                        // Recipient's email address
-        subject: 'Welcome to The First Web - Let’s Get Started!',  // Subject line with business context
-        text: `Dear user,\n\nWe’re thrilled to have you on board with The First Web!\nHere’s what you can expect as part of our community...\n\nBest Regards,\nThe First Web`,  // Plain text body (fallback)
+        subject: 'Welcome to The First Web - Lets Get Started!',  // Subject line with business context
+        text: `Dear user,\n\nWe're thrilled to have you on board with The First Web!\nHere's what you can expect as part of our community...\n\nBest Regards,\nThe First Web`,  // Plain text body (fallback)
         html: `
             <div style="font-family: Arial, sans-serif; font-size: 16px;">
                 <p>Hello <strong>user</strong>,</p>
-                <p>Welcome to <strong>The First Web</strong>! We’re thrilled to have you on board and look forward to helping you achieve your goals with our services.</p>
+                <p>Welcome to <strong>The First Web</strong>! We're thrilled to have you on board and look forward to helping you achieve your goals with our services.</p>
                 <p>Here are some next steps you can take:</p>
                 <ul>
-                    <li><a href="your-link.com">Learn more about our services</a></li>
-                    <li>Explore our <a href="your-link.com">product offerings</a></li>
+                    <li><a href="https://www.thefirstweb.com">Learn more about our services</a></li>
+                    <li>Explore our <a href="https://www.thefirstweb.com/pricing">product offerings</a></li>
                 </ul>
                 <p>If you have any questions, feel free to reach out to us at <a href="mailto:support@thefirstweb.com">support@thefirstweb.com</a>!</p>
                 <p>Best Regards,<br/><strong>The First Web</strong></p>
@@ -107,10 +111,11 @@ const sendEmail = (req, res) => {
         `,  // HTML body for professional design
     };
     
-    transporter.sendMail(mailOptions, (error, info) => {
+    transporter.sendMail(mailOptions, async(error, info) => {
         if (error) {
             return res.status(500).send({ message: 'Error sending email', error });
         }
+        await TryMail.create({ email });
         res.send({ message: 'Email sent successfully!', info });
     });
 };
