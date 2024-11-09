@@ -8,6 +8,7 @@ const userRouter = require('./user')
 const serviceRouter = require('./service')
 const contactRouter = require('./contact')
 const couponRouter = require('./coupon')
+const uploadImage = require('./upload-image')
 
 const orderRouter = require('./order')
 const statusRouter = require('./status')
@@ -29,6 +30,7 @@ router.use('/api/v1/coupon', couponRouter); //tested
 router.use('/api/v1/cashback', cashbackRouter); //tested
 router.use('/api/v1/status', statusRouter); //tested
 router.use('/api/v1/order', orderRouter); //tested
+router.use('/api/v1/upload', uploadImage); //tested
 // router.use('/api/v1/dashboard', authenticate.studentAuthMiddleware, dashboardRouter);
 // router.use('/api/v1/app', appUserAuthMiddleware, appRouter);
 

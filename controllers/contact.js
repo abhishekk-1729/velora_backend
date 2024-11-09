@@ -3,6 +3,7 @@ const Contact = require('../models/contact'); // Adjust the path as necessary
 const { validateContact } = require('../validators/contact');
 
 exports.addContact = async (req, res) => {
+    console.log(req);
     // Check for validation errors
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
