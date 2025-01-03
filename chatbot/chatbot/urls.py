@@ -11,5 +11,5 @@ def root_view(request):
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', root_view),  # Add the root view for the '/' path
-    path('api/v1/chat', include('chat.urls')),  # Include the URLs from the chat app
+    path('api/v1/chat/', include('chat.urls')),  # Include the URLs from the chat app
 ]
