@@ -10,6 +10,9 @@ from langchain.memory import ConversationBufferMemory
 from langchain.agents import AgentType
 from langchain.schema import HumanMessage, AIMessage
 import json
+from dotenv import load_dotenv
+import os
+load_dotenv()
 
 # Initialize the memory (for storing conversation context)
 memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
@@ -78,7 +81,7 @@ tools = [
 ]
 
 # Initialize OpenAI model
-llm = ChatOpenAI(openai_api_key="your_api_key_here", model="gpt-4", temperature=0)
+llm = ChatOpenAI(openai_api_key=os.getenv("OPENAI_API_KEY"), model="gpt-4", temperature=0)
 
 # Initialize the agent using 'conversational-react-description' with memory and tools
 agent = initialize_agent(
