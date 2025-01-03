@@ -1,22 +1,4 @@
-# name: Node.js CI
-
-# on: [push]
-
-# jobs:
-#   build:
-
-#     runs-on: ubuntu-latest
-
-#     steps:
-#       - uses: actions/checkout@v4
-#       - name: Use Node.js
-#         uses: actions/setup-node@v4
-#         with:
-#           node-version: '20.x'
-#       - run: npm ci
-#       - run: npm run build --if-present
-
-name: Node.js and Django CI
+name: Node.js CI
 
 on: [push]
 
@@ -26,41 +8,59 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout the code
       - uses: actions/checkout@v4
-
-      # Set up Node.js environment
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20.x'
+      - run: npm ci
+      - run: npm run build --if-present
+
+# name: Node.js and Django CI
+
+# on: [push]
+
+# jobs:
+#   build:
+
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       # Checkout the code
+#       - uses: actions/checkout@v4
+
+#       # Set up Node.js environment
+#       - name: Use Node.js
+#         uses: actions/setup-node@v4
+#         with:
+#           node-version: '20.x'
       
-      # Install dependencies for Node.js
-      - run: |
-          npm ci
+#       # Install dependencies for Node.js
+#       - run: |
+#           npm ci
 
-      # Build the Node.js app (optional, only if needed)
-      - run: |
-          npm run build --if-present
+#       # Build the Node.js app (optional, only if needed)
+#       - run: |
+#           npm run build --if-present
 
-      # Set up Python environment for Django
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.x'
+#       # Set up Python environment for Django
+#       - name: Set up Python
+#         uses: actions/setup-python@v2
+#         with:
+#           python-version: '3.x'
 
-      # Install dependencies for Django
-      - run: |
-          pip install -r chatbot/requirements.txt
+#       # Install dependencies for Django
+#       - run: |
+#           pip install -r chatbot/requirements.txt
 
-      # Run migrations (optional)
-      - run: |
-          python chatbot/manage.py migrate
+#       # Run migrations (optional)
+#       - run: |
+#           python chatbot/manage.py migrate
 
-      - run: |
-          python chatbot/manage.py runserver 0.0.0.0:8000 &
+#       - run: |
+#           python chatbot/manage.py runserver 0.0.0.0:8000 &
 
-      # # Optionally run tests for both servers
-      # - run: |
-      #     python manage.py test
-      #     npm test
+#       # # Optionally run tests for both servers
+#       # - run: |
+#       #     python manage.py test
+#       #     npm test
