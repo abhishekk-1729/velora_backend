@@ -51,14 +51,14 @@ jobs:
 
       # Install dependencies for Django
       - run: |
-          pip install -r requirements.txt
+          pip install -r chatbot/requirements.txt
 
       # Run migrations (optional)
       - run: |
-          python manage.py migrate
+          python chatbot/manage.py migrate
 
       - run: |
-          python manage.py runserver 0.0.0.0:8000 &
+          python chatbot/manage.py runserver 0.0.0.0:8000 &
 
       # # Optionally run tests for both servers
       # - run: |
