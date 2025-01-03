@@ -78,7 +78,7 @@ tools = [
 ]
 
 # Initialize OpenAI model
-llm = ChatOpenAI(model="gpt-4", temperature=0)
+llm = ChatOpenAI(openai_api_key="your_api_key_here", model="gpt-4", temperature=0)
 
 # Initialize the agent using 'conversational-react-description' with memory and tools
 agent = initialize_agent(
