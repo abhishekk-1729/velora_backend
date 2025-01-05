@@ -32,7 +32,7 @@ const Cashback = require("../models/cashback"); // Adjust the path as necessary
 // Function to generate the referral code
 function generateReferralCode(userEmail, userId) {
   const companyName = "TFW"; // Company name abbreviation
-  const expirationCode = "NOV30"; // Expiration code
+  const expirationCode = "JAN31"; // Expiration code
   const timestamp = Date.now(); // Current timestamp
   const randomPart = crypto.randomBytes(3).toString("hex"); // Generate a random 6-character hex string
 
@@ -98,7 +98,7 @@ exports.addUser = async (req, res) => {
     // const couponCode = `${couponCodeBase}${String(couponCodeNumber).padStart(3, '0')}`; // Pad number to 3 digits
 
     // Set expiry date for the coupon code
-    const expiryDate = new Date("2024-11-30"); // You can customize this date as needed
+    const expiryDate = new Date("2025-01-31"); // You can customize this date as needed
 
     // Create and save the new coupon code entry
     const newCouponCode = new CouponCode({

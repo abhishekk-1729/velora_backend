@@ -9,7 +9,7 @@ exports.addCoupon = async (req, res) => {
     const {coupon_code, discount_percent, cashback_id, issued_date, expiry_date } = req.body;
     
     try {
-        const newCoupon = new Coupon({coupon_code, discount_percent, cashback_id, issued_date, expiry_date  });
+        const newCoupon = new CouponCode({coupon_code, discount_percent, cashback_id, issued_date, expiry_date  });
         await newCoupon.save();
         res.status(201).json({ success: true, message: 'Coupon added successfully', coupon: newCoupon });
     } catch (error) {
@@ -98,7 +98,7 @@ exports.verifyCoupon = async (req, res) => {
 // 2. Get all Coupons
 exports.getAllCoupons = async (req, res) => {
     try {
-        const coupons = await Coupon.find();
+        const coupons = await CouponCode.find();
         res.status(200).json({ success: true, coupons });
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
