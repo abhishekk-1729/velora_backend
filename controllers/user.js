@@ -13,8 +13,13 @@ const crypto = require("crypto");
 
 // Set up email transporter
 const transporter = nodemailer.createTransport({
-  service: "Gmail",
-  auth: { user: process.env.EMAIL_SENDER, pass: process.env.EMAIL_PASS },
+  host: 'smtp.gmail.com',  // Replace with your SMTP host
+  port: 587,                 // Port (587 is typically used for secure connections)
+  secure: false,             // true for 465, false for other ports
+  auth: {
+      user: process.env.EMAIL_SENDER, // Your SMTP username
+      pass: process.env.EMAIL_PASS,    // Your SMTP password
+  },
 });
 
 // Utility function to generate OTP

@@ -92,15 +92,15 @@ const createOrder = async (req, res) => {
     };
     // Create a transporter
     const transporter = nodemailer.createTransport({
-        host: 'smtpout.secureserver.net',  // Replace with your SMTP host
-        port: 587,                 // Port (587 is typically used for secure connections)
-        secure: false,             // true for 465, false for other ports
-        auth: {
-            user: process.env.EMAIL_SENDER, // Your SMTP username
-            pass: process.env.EMAIL_PASS,    // Your SMTP password
-        },
-    });
-
+      host: 'smtp.gmail.com',  // Replace with your SMTP host
+      port: 587,                 // Port (587 is typically used for secure connections)
+      secure: false,             // true for 465, false for other ports
+      auth: {
+          user: process.env.EMAIL_SENDER, // Your SMTP username
+          pass: process.env.EMAIL_PASS,    // Your SMTP password
+      },
+  });
+  
     console.log(mailOptions);
     await transporter.sendMail(mailOptions);    
     res.status(201).json({

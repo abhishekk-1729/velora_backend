@@ -9,14 +9,14 @@ const { validationResult } = require('express-validator');
 
 // Set up email transporter
 const transporter = nodemailer.createTransport({
-        host: 'smtpout.secureserver.net',  // Replace with your SMTP host
-        port: 587,                 // Port (587 is typically used for secure connections)
-        secure: false,             // true for 465, false for other ports
-        auth: {
-            user: process.env.EMAIL_SENDER, // Your SMTP username
-            pass: process.env.EMAIL_PASS,    // Your SMTP password
-        },
-    });
+    host: 'smtp.gmail.com', // Gmail SMTP server
+    port: 587,             // Port for TLS/STARTTLS
+    secure: false,         // Use false for 587, true for 465
+    auth: {
+        user: process.env.EMAIL_SENDER, // Your Gmail address
+        pass: process.env.EMAIL_PASS,   // Your Gmail app password
+    },
+});
 
 // Utility function to generate OTP
 const generateMagicCode = () => {
@@ -58,50 +58,50 @@ const sendLoginEmailOtp = async (req, res) => {
         await userTryLogin.save();
 
         // Send OTP email
-const mailOptions = {
-            from: '"The First Web Team" <support@thefirstweb.com>',
-            to: email,
-            subject: 'Your Magic Code for The First Web Login',
-            text: `Dear user, your magic code for login is ${otp}. It will expire in 5 minutes.`,
-            html: `
-                <div style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px; border-radius: 8px;">
-                    <div style="background-color: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);">
-                        <h2 style="color: #333333;">Welcome to The First Web!</h2>
-                        <p style="font-size: 16px; color: #555555;">
-                            Dear user,
-                        </p>
-                        <p style="font-size: 16px; color: #555555;">
-                            Your Magic Code for login is:
-                        </p>
-                        <h1 style="font-size: 24px; color: #007BFF; text-align: center; margin: 20px 0;">
-                            ${otp}
-                        </h1>
-                        <p style="font-size: 16px; color: #555555;">
-                            This code is valid for 5 minutes. Please enter it in the provided field to complete your login process.
-                        </p>
-                        <p style="font-size: 16px; color: #555555;">
-                            If you did not request this code, please ignore this email or contact our support team.
-                        </p>
-                        <hr style="border: 1px solid #dddddd;">
-                        <p style="font-size: 14px; color: #777777; text-align: center;">
-                            Best Regards,<br>
-                            <strong>The First Web Support Team</strong>
-                        </p>
-                        <p style="font-size: 12px; color: #aaaaaa; text-align: center;">
-                            This is an automated message. Please do not reply to this email. For any inquiries, contact us at 
-                            <a href="mailto:support@thefirstweb.com" style="color: #007BFF; text-decoration: none;">support@thefirstweb.com</a>.
-                        </p>
-                    </div>
-                </div>
-            `,
-        };
+        const mailOptions = {
+                    from: '"The First Web Team" <support@thefirstweb.com>',
+                    to: email,
+                    subject: 'Your Magic Code for The First Web Login',
+                    text: `Dear user, your magic code for login is ${otp}. It will expire in 5 minutes.`,
+                    html: `
+                        <div style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px; border-radius: 8px;">
+                            <div style="background-color: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);">
+                                <h2 style="color: #333333;">Welcome to The First Web!</h2>
+                                <p style="font-size: 16px; color: #555555;">
+                                    Dear user,
+                                </p>
+                                <p style="font-size: 16px; color: #555555;">
+                                    Your Magic Code for login is:
+                                </p>
+                                <h1 style="font-size: 24px; color: #007BFF; text-align: center; margin: 20px 0;">
+                                    ${otp}
+                                </h1>
+                                <p style="font-size: 16px; color: #555555;">
+                                    This code is valid for 5 minutes. Please enter it in the provided field to complete your login process.
+                                </p>
+                                <p style="font-size: 16px; color: #555555;">
+                                    If you did not request this code, please ignore this email or contact our support team.
+                                </p>
+                                <hr style="border: 1px solid #dddddd;">
+                                <p style="font-size: 14px; color: #777777; text-align: center;">
+                                    Best Regards,<br>
+                                    <strong>The First Web Support Team</strong>
+                                </p>
+                                <p style="font-size: 12px; color: #aaaaaa; text-align: center;">
+                                    This is an automated message. Please do not reply to this email. For any inquiries, contact us at 
+                                    <a href="mailto:support@thefirstweb.com" style="color: #007BFF; text-decoration: none;">support@thefirstweb.com</a>.
+                                </p>
+                            </div>
+                        </div>
+                    `,
+                };
 
-        await transporter.sendMail(mailOptions);
-        res.status(200).json({ success: true, message: 'Login OTP sent' });
-    } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
-    }
-};
+                await transporter.sendMail(mailOptions);
+                res.status(200).json({ success: true, message: 'Login OTP sent' });
+            } catch (error) {
+                res.status(500).json({ success: false, message: error.message });
+            }
+        };
 
 // Send signup OTP
 const sendSignupEmailOtp = async (req, res) => {
@@ -162,7 +162,7 @@ const sendSignupEmailOtp = async (req, res) => {
                         </p>
                         <p style="font-size: 12px; color: #aaaaaa; text-align: center;">
                             This is an automated message. Please do not reply to this email. For any inquiries, contact us at 
-                            <a href="mailto:support@yourbusiness.com" style="color: #007BFF; text-decoration: none;">support@yourbusiness.com</a>.
+                            <a href="mailto:support@thefirstweb.com" style="color: #007BFF; text-decoration: none;">support@thefirstweb.com</a>.
                         </p>
                     </div>
                 </div>
