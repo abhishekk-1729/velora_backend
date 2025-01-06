@@ -704,5 +704,12 @@
     "currency": "USD",
     "receipt": "receipt#1",
     "status": "created"
+  },
+  {
+    "order_id": "order_PfgalnJ0vAhDEa",
+    "amount": 18300,
+    "currency": "USD",
+    "receipt": "receipt#1",
+    "status": "created"
   }
 ]
