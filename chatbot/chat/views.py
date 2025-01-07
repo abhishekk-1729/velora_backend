@@ -209,9 +209,12 @@ def chat(request):
     """
     Handle chat messages and return AI-generated responses.
     """
+    print(request)
+    print(request.method)
     try:
         if request.method == "POST":
             data = json.loads(request.body)
+            print(data)
             user_input = data.get("user_input")
             logger.debug(f"User input received: {user_input}")
 
