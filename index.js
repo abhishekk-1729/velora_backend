@@ -48,17 +48,18 @@ io.on('connection', (socket) => {
       }
 
       // Add the new message to the chat's messages array
+      const createdAt = new Date();
       chat.messages.push({
         sender,
         message,
-        createdAt: new Date(),
+        createdAt: createdAt
       });
 
       // Save the updated chat to the database
       await chat.save();
 
       // Emit the new message to all clients in the chat room
-      io.to(chatId).emit('newMessage', { sender, message });
+      io.to(chatId).emit('newMessage', { sender, message, createdAt });
 
     } catch (error) {
       console.error('Error saving message:', error);
@@ -111,9 +112,11 @@ socket.on('closeChat', async (chatId) => {
       }
 
       // Create the new message
+      const createdAt = new Date();
       const newMessage = {
         sender: 'admin',
         message,
+        createdAt: createdAt
       };
 
       // Save the new message in the chat
