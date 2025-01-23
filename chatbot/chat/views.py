@@ -20,6 +20,11 @@ from langchain.docstore.document import Document
 from langchain.llms import OpenAI
 from langchain.chains import RetrievalQA
 import PyPDF2
+from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework.decorators import api_view
+from .models import PDFUpload
+from .serializers import PDFUploadSerializer
+from .create_embeddings import create_embeddings_from_pdf
 
 logger = Logger(log_level="BOTH")
 from pymongo import MongoClient
@@ -372,3 +377,30 @@ def chat(request):
 #     faiss_index.save_local(output_path)
 #     print(f"FAISS vector store saved to {output_path}")
 
+
+from django.core.files.storage import default_storage
+
+@csrf_exempt
+@api_view(['POST'])
+def pdf(request):
+    if request.method == 'POST':
+        # Get the uploaded file from the request
+        uploaded_file = request.FILES.get('file')
+        
+        if uploaded_file is None:
+            return JsonResponse({'error': 'No file uploaded'}, status=400)
+
+        # Get the path to the directory of views.py
+        directory = os.path.dirname(os.path.abspath(__file__))
+
+        # Define the file path
+        file_path = os.path.join(directory, 'embedding.pdf')
+
+        # Save the file to the same directory as views.py
+        with open(file_path, 'wb') as destination:
+            for chunk in uploaded_file.chunks():
+                destination.write(chunk)
+        
+        create_embeddings_from_pdf(file_path,'faiss_index')
+
+        return JsonResponse({'message': 'PDF uploaded successfully!'}, status=201)

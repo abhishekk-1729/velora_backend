@@ -8,8 +8,8 @@ import PyPDF2
 from dotenv import load_dotenv
 load_dotenv()
 
-EMBEDDING_FILE = "chatbot/chat/faiss_index"
-PDF_FILE = "company_info.pdf"  # Replace with your company info PDF path
+EMBEDDING_FILE = "faiss_index"
+PDF_FILE = "Saikot_Report_Final.txt"  # Replace with your company info PDF path
 
 # Step 1: Create embeddings and FAISS vector store
 def create_embeddings_from_pdf(pdf_path: str, output_path: str) -> None:
@@ -23,6 +23,9 @@ def create_embeddings_from_pdf(pdf_path: str, output_path: str) -> None:
     # Load and split PDF text
     reader = PyPDF2.PdfReader(pdf_path)
     text = "".join(page.extract_text() for page in reader.pages)
+    # with open(pdf_path, "r", encoding="utf-8") as file:
+    #     text = file.read()
+    print(text)
     text_splitter = RecursiveCharacterTextSplitter(
         chunk_size=500, chunk_overlap=50
     )
