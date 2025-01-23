@@ -277,7 +277,7 @@ prompt = ChatPromptTemplate.from_messages([
 ])
 
 # Define tools array
-tools = [search_first_web_tool, fallback_response_tool]
+tools = [search_first_web_tool]
 
 # Create the agent
 agent = create_tool_calling_agent(llm, tools, prompt)
