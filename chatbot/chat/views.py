@@ -186,9 +186,11 @@ def load_faiss_vector_store(embedding_file: str) -> FAISS:
     """
     return FAISS.load_local(embedding_file, OpenAIEmbeddings(), allow_dangerous_deserialization=True)
 
+    # Search the FAISS vector store for answers related to the company.
+
 def search_first_web(query: str) -> str:
     """
-    Search the FAISS vector store for answers related to the company.
+    Search the FAISS vector store for answers related to the himalaya vidya dan trust.
 
     Args:
         query (str): User query.
@@ -224,13 +226,17 @@ def fallback_response(query: str) -> str:
     Returns:
         str: Fallback message.
     """
-    return "I'm here to help with anything related to our services at The First Web! Please let me know how I can assist you. 😊"
+    return "I'm here to help with anything related to Uttarakhand teaching project. Please let me know how I can assist you. 😊"
+    # return "I'm here to help with anything related to our services at The First Web! Please let me know how I can assist you. 😊"
+
+    # Tool to search the FAISS vector store for answers related to the company, details, contact information, services, princing and other information related to the first web.
 
 
 @tool
 def search_first_web_tool(query: str) -> str:
     """
-    Tool to search the FAISS vector store for answers related to the company, details, contact information, services, princing and other information related to the first web.
+    Tool to search the FAISS vector store for answers related to the himalaya vidya dan trust, its intiatives, its activities and uttarakhand teaching project.
+
 
     Args:
         query (str): User query.
@@ -260,9 +266,11 @@ llm = ChatOpenAI(
     temperature=0
 )
 
+    # ("system", "You are a helpful assistant called FirstAI integrated into The First Web's website. Your job is to assist users by answering questions about the company's services, pricing, and processes. You should always promote The First Web's services like a skilled salesperson, encouraging users to make their websites with the company. Keep your responses engaging and concise, and feel free to use emojis to make the conversation friendly."),
+
 # Define the agent prompt
 prompt = ChatPromptTemplate.from_messages([
-    ("system", "You are a helpful assistant called FirstAI integrated into The First Web's website. Your job is to assist users by answering questions about the company's services, pricing, and processes. You should always promote The First Web's services like a skilled salesperson, encouraging users to make their websites with the company. Keep your responses engaging and concise, and feel free to use emojis to make the conversation friendly."),
+    ("system", "You are a helpful assistant called FirstAI integrated into the himalaya vidya trust website. We regularly run educational intiatives to teach kids ususaly from class 9th to 10th for jee and neet preparation at free of cost. We run Uttarakhand teaching project. Keep your responses engaging and concise, and feel free to use emojis to make the conversation friendly."),
     ("placeholder", "{chat_history}"),
     ("human", "{input}"),
     ("placeholder", "{agent_scratchpad}"),
