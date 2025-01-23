@@ -22,8 +22,6 @@ from langchain.chains import RetrievalQA
 import PyPDF2
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.decorators import api_view
-from .models import PDFUpload
-from .serializers import PDFUploadSerializer
 from .create_embeddings import create_embeddings_from_pdf
 
 logger = Logger(log_level="BOTH")
