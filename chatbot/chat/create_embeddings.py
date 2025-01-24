@@ -21,10 +21,10 @@ def create_embeddings_from_pdf(pdf_path: str, output_path: str) -> None:
         output_path (str): Path to save the FAISS vector store.
     """
     # Load and split PDF text
-    reader = PyPDF2.PdfReader(pdf_path)
-    text = "".join(page.extract_text() for page in reader.pages)
-    # with open(pdf_path, "r", encoding="utf-8") as file:
-    #     text = file.read()
+    # reader = PyPDF2.PdfReader(pdf_path)
+    # text = "".join(page.extract_text() for page in reader.pages)
+    with open(pdf_path, "r", encoding="utf-8") as file:
+        text = file.read()
     print(text)
     text_splitter = RecursiveCharacterTextSplitter(
         chunk_size=500, chunk_overlap=50
