@@ -173,7 +173,7 @@ def search_in_text(query: str) -> str:
 # Define the tools with decorators
 
 # Define constants
-EMBEDDING_FILE = "chat/faiss_index"
+EMBEDDING_FILE = "faiss_index"
 PDF_FILE = "company_info.pdf"  # Replace with your company info PDF path
 
 # Step 2: Load FAISS vector store and define a retrieval function
