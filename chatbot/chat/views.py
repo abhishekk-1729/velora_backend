@@ -392,7 +392,7 @@ def pdf(request):
         directory = os.path.dirname(os.path.abspath(__file__))
 
         # Define the file path
-        file_path = os.path.join(directory, 'embedding.pdf')
+        file_path = os.path.join(directory, 'embedding.txt')
 
         # Save the file to the same directory as views.py
         with open(file_path, 'wb') as destination:
